@@ -1,4 +1,6 @@
 ﻿using EventBooking.Domain.Repositories;
+using EventBooking.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Linq.Expressions;
 
@@ -7,8 +9,8 @@ namespace EventBooking.Infrastructure.Repositories
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
 
-        protected readonly SchoolContext _dbContext;
-        public GenericRepository(SchoolContext dbContext)
+        protected readonly AppDbContext _dbContext;
+        public GenericRepository(AppDbContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -45,7 +47,7 @@ namespace EventBooking.Infrastructure.Repositories
         public virtual async Task<T> AddAsync(T entity)
         {
             await _dbContext.Set<T>().AddAsync(entity);
-            //  await _dbContext.SaveChangesAsync();          // i will use unit of work here 
+            await _dbContext.SaveChangesAsync();          // i will use unit of work here 
 
             return entity;
         }
@@ -53,14 +55,14 @@ namespace EventBooking.Infrastructure.Repositories
         public async Task<T> UpdateAsync(T entity)
         {
             _dbContext.Set<T>().Update(entity);
-            //  await _dbContext.SaveChangesAsync();         // i will use unit of work here 
+            await _dbContext.SaveChangesAsync();         // i will use unit of work here 
             return entity;
         }
 
         public virtual async Task DeleteAsync(T entity)
         {
             _dbContext.Set<T>().Remove(entity);
-            // await _dbContext.SaveChangesAsync();         // i will use unit of work here 
+            await _dbContext.SaveChangesAsync();         // i will use unit of work here 
         }
 
         public async Task<bool> DeleteByIdAsync(int id)

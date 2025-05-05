@@ -1,5 +1,6 @@
 ﻿using EventBooking.Domain.Entities;
 using EventBooking.Domain.Repositories;
+using EventBooking.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -11,41 +12,38 @@ namespace EventBooking.Infrastructure.Repositories
         {
         }
 
-        public async Task<Event> GetByIdWithDetailsAsync(int id)
+        public async override Task<Event> GetByIdAsync(int id)
         {
-            return await _dbSet
+            return await _dbContext.Events
                 .Include(e => e.EventTags)
                     .ThenInclude(et => et.Tag)
                 .Include(e => e.Bookings)
-                .FirstOrDefaultAsync(e => e.Id == id && !e.IsDeleted);
+                .FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public async Task<List<Event>> GetAllWithDetailsAsync()
+        public async override Task<List<Event>> GetAllAsync()
         {
-            return await _dbSet
-                .Include(e => e.EventTags)
-                    .ThenInclude(et => et.Tag)
-                .Include(e => e.Bookings)
-                .Where(e => !e.IsDeleted)
-                .ToListAsync();
+            return await _dbContext.Events
+                 .Include(e => e.EventTags)
+                     .ThenInclude(et => et.Tag)
+                 .Include(e => e.Bookings)
+                 .ToListAsync();
         }
-
-        public async Task<List<Event>> FindWithDetailsAsync(Expression<Func<Event, bool>> predicate)
+        public async override Task<List<Event>> GetByAsync(Expression<Func<Event, bool>> expression)
         {
-            return await _dbSet
-                .Include(e => e.EventTags)
-                    .ThenInclude(et => et.Tag)
-                .Include(e => e.Bookings)
-                .Where(e => !e.IsDeleted)
-                .Where(predicate)
-                .ToListAsync();
+            return await _dbContext.Events
+                 .Include(e => e.EventTags)
+                     .ThenInclude(et => et.Tag)
+                 .Include(e => e.Bookings)
+                 .Where(expression)
+                 .ToListAsync();
         }
 
         public async Task<bool> HasAvailableSeatsAsync(int eventId, int requestedSeats)
         {
-            var eventEntity = await _dbSet
+            var eventEntity = await _dbContext.Events
                 .Include(e => e.Bookings)
-                .FirstOrDefaultAsync(e => e.Id == eventId && !e.IsDeleted);
+                .FirstOrDefaultAsync(e => e.Id == eventId);
 
             if (eventEntity == null)
                 return false;
