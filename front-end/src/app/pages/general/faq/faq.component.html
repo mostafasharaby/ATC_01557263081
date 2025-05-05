@@ -1,0 +1,38 @@
+<div class="accordion-section">
+    <div class="accordion-holder">
+      <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div
+          class="panel panel-default border-1 mb-1"
+          *ngFor="let faq of faqList; let i = index"
+        >
+          <div class="panel-heading" role="tab" [id]="'heading' + i">
+            <h4 class="panel-title">
+              <a
+                role="button"
+                data-toggle="collapse"
+                [attr.data-parent]="'#accordion'"
+                [href]="'#collapse' + i"
+                [attr.aria-expanded]="i === 0 ? 'true' : 'false'"
+                [attr.aria-controls]="'collapse' + i"
+                class="collapsed"
+              >
+                {{ faq.question }}
+              </a>
+            </h4>
+          </div>
+          <div
+            [id]="'collapse' + i"
+            class="panel-collapse collapse"
+            [ngClass]="{ 'in': i === 0 }"
+            role="tabpanel"
+            [attr.aria-labelledby]="'heading' + i"
+          >
+            <div class="panel-body">
+              {{ faq.answer }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
