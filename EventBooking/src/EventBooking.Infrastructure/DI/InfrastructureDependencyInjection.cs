@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Globalization;
 using System.Text;
 
@@ -50,8 +51,47 @@ namespace EventBooking.Infrastructure.DI
             ConfigureAuthenticationOptions(services, configuration);
             ConfigureCorsOptions(services);
             ConfigureAuthorizationOptions(services);
+            ConfigureSwaggerOptions(services);
 
             return services;
+        }
+
+        private static void ConfigureSwaggerOptions(IServiceCollection services)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Event Booking System",
+                    Description = "ASP.NET Core Web API"
+                });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme."
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new List<string>()
+                    }
+                });
+            });
         }
 
         public static void UseSharedCulture(this IApplicationBuilder app)

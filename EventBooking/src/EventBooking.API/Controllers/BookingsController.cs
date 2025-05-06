@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EventBooking.WebApi.Controllers
+namespace EventBooking.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
