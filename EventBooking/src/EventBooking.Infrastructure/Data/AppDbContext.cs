@@ -47,6 +47,9 @@ namespace EventBooking.Infrastructure.Data
                 .Property(e => e.ImageUrl)
                 .HasMaxLength(500);
 
+            modelBuilder.Entity<Event>()
+                .Property(e => e.Price)
+                .HasPrecision(10, 2);
 
         }
 

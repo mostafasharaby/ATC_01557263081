@@ -53,5 +53,12 @@ namespace EventBooking.Infrastructure.Repositories
 
             return availableSeats >= requestedSeats;
         }
+
+        public async Task<IEnumerable<Event>> GetEventsByUserIdAsync(string userId)
+        {
+            return await _dbContext.Events
+                .Where(e => e.CreatedBy == userId)
+                .ToListAsync();
+        }
     }
 }

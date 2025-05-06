@@ -1,7 +1,10 @@
-﻿using EventBooking.Domain.Entities;
+﻿using Auth.Infrastructure.Services;
+using EventBooking.Application.Interfaces;
+using EventBooking.Domain.Entities;
 using EventBooking.Domain.Repositories;
 using EventBooking.Infrastructure.Data;
 using EventBooking.Infrastructure.Repositories;
+using EventBooking.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -11,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Globalization;
 using System.Text;
 
@@ -21,26 +25,88 @@ namespace EventBooking.Infrastructure.DI
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("EventBookingConnection")));
+
+            services.AddDbContext<AppDbContext>(option =>
+            {
+                option.UseSqlServer(configuration.GetConnectionString("EventBookingConnection"),
+                    sqlServerOption => sqlServerOption.EnableRetryOnFailure());
+            });
 
             services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
+
             //services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<IBookingRepository, BookingRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
 
-
+            services.AddScoped<IJwtService, JwtService>();
+            services.AddScoped<IGoogleService, GoogleService>();
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IFileStorageService, FileStorageService>();
 
             ConfigureLockoutOptions(services);  // for Lockout 
             ConfigureLocalizationOptions(services); // for Localization
             ConfigureAuthenticationOptions(services, configuration);
             ConfigureCorsOptions(services);
             ConfigureAuthorizationOptions(services);
+            ConfigureSwaggerOptions(services);
 
             return services;
+        }
+
+        private static void ConfigureSwaggerOptions(IServiceCollection services)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Event Booking System",
+                    Description = "ASP.NET Core Web API"
+                });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme."
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new List<string>()
+                    }
+                });
+            });
+        }
+
+        public static void UseSharedCulture(this IApplicationBuilder app)
+        {
+            app.Use(async (context, next) =>
+            {
+                var culture = context.Request.Query["culture"];
+                if (!string.IsNullOrWhiteSpace(culture))
+                {
+                    CultureInfo cultureInfo = new CultureInfo(culture!);
+                    CultureInfo.CurrentCulture = cultureInfo;
+                    CultureInfo.CurrentUICulture = cultureInfo;
+                }
+                await next();
+            });
         }
 
         private static void ConfigureAuthorizationOptions(IServiceCollection services)
@@ -81,27 +147,27 @@ namespace EventBooking.Infrastructure.DI
                 //options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-                        .AddJwtBearer(options =>
-                        {
-                            options.SaveToken = true;
-                            options.RequireHttpsMetadata = false;
-                            options.TokenValidationParameters = new TokenValidationParameters
-                            {
-                                ValidateIssuer = true,
-                                ValidIssuer = configuration["Jwt:ValidIssuer"],
-                                ValidateAudience = true,
-                                ValidAudience = configuration["Jwt:ValidAudience"],
-                                ValidateLifetime = true, //  Enforce expiration check
-                                ClockSkew = TimeSpan.Zero,
-                                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Secret"]))
-                            };
-                        })
-                        .AddCookie()
-                        .AddGoogle(options =>
-                        {
-                            options.ClientId = configuration["GoogleAuth:ClientId"];
-                            options.ClientSecret = configuration["GoogleAuth:ClientSecret"];
-                        });
+                .AddJwtBearer(options =>
+                {
+                    options.SaveToken = true;
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = configuration["Jwt:ValidIssuer"],
+                        ValidateAudience = true,
+                        ValidAudience = configuration["Jwt:ValidAudience"],
+                        ValidateLifetime = true, // Enforce expiration check
+                        ClockSkew = TimeSpan.Zero,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Secret"]!))
+                    };
+                })
+                .AddCookie()
+                .AddGoogle(options =>
+                {
+                    options.ClientId = configuration["GoogleAuth:ClientId"]!;
+                    options.ClientSecret = configuration["GoogleAuth:ClientSecret"]!;
+                });
         }
 
         private static void ConfigureLocalizationOptions(IServiceCollection services)

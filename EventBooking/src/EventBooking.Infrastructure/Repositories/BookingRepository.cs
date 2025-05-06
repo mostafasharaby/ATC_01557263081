@@ -32,10 +32,24 @@ namespace EventBooking.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public Task<bool> HasAvailableSeatsAsync(int eventId, int requestedSeats)
+
+        public async Task<bool> HasAvailableSeatsAsync(int eventId, int requestedSeats)
         {
-            throw new NotImplementedException();
+            var eventEntity = await _dbContext.Events
+                .FirstOrDefaultAsync(e => e.Id == eventId);
+
+            if (eventEntity == null)
+                return false;
+
+            return eventEntity.AvailableSeats >= requestedSeats;
+        }
+
+        public async Task<List<Booking>> GetBookingsByUserIdAsync(string userId)
+        {
+            return await _dbContext.Bookings
+                .Include(b => b.Event)
+                .Where(b => b.UserId == userId)
+                .ToListAsync();
         }
     }
-
 }

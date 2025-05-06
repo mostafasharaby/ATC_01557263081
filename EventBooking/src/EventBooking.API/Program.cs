@@ -1,15 +1,21 @@
+using EventBooking.API.Middlewares;
+using EventBooking.Application.DI;
 using EventBooking.Infrastructure.DI;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+builder.Services.AddIApplicationDI();
+builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 var app = builder.Build();
+app.UseSharedCulture();
+app.UseExceptionHandlingMiddleware();
 
 using (var scope = app.Services.CreateScope())
 {
@@ -18,7 +24,6 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
-//app.UserSharedMiddleWare();
 
 app.UseSwagger();
 app.UseSwaggerUI();
