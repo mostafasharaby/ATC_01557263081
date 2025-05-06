@@ -9,9 +9,9 @@ using System.Security.Claims;
 
 namespace EventBooking.Application.Handlers.EventHandlers
 {
-    public class EventQueryHandler : IRequestHandler<GetEventByIdQuery, Response<EventDetailsDto>>,
+    public class EventQueryHandler : IRequestHandler<GetEventByIdQuery, Response<EventDto>>,
                                      IRequestHandler<GetEventListQuery, Response<List<EventDto>>>,
-                                     IRequestHandler<GetEventsByUserQuery, Response<List<EventDetailsDto>>>
+                                     IRequestHandler<GetEventsByUserQuery, Response<List<EventDto>>>
     {
         private readonly IEventRepository _eventRepository;
         private readonly IMapper _mapper;
@@ -30,7 +30,7 @@ namespace EventBooking.Application.Handlers.EventHandlers
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<Response<EventDetailsDto>> Handle(GetEventByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Response<EventDto>> Handle(GetEventByIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -38,14 +38,14 @@ namespace EventBooking.Application.Handlers.EventHandlers
                 var eventItem = await _eventRepository.GetByIdAsync(eventId);
 
                 if (eventItem == null)
-                    return _responseHandler.NotFound<EventDetailsDto>("Event not found.");
+                    return _responseHandler.NotFound<EventDto>("Event not found.");
 
-                var eventDto = _mapper.Map<EventDetailsDto>(eventItem);
+                var eventDto = _mapper.Map<EventDto>(eventItem);
                 return _responseHandler.Success(eventDto);
             }
             catch (Exception ex)
             {
-                return _responseHandler.BadRequest<EventDetailsDto>(ex.Message);
+                return _responseHandler.BadRequest<EventDto>(ex.Message);
             }
         }
 
@@ -70,7 +70,7 @@ namespace EventBooking.Application.Handlers.EventHandlers
             }
         }
 
-        public async Task<Response<List<EventDetailsDto>>> Handle(GetEventsByUserQuery request, CancellationToken cancellationToken)
+        public async Task<Response<List<EventDto>>> Handle(GetEventsByUserQuery request, CancellationToken cancellationToken)
         {
             try
             {
@@ -90,20 +90,20 @@ namespace EventBooking.Application.Handlers.EventHandlers
 
                     if (!isAdmin && authenticatedUserId != userId.ToString())
                     {
-                        return _responseHandler.Forbidden<List<EventDetailsDto>>("You are not authorized to view these events.");
+                        return _responseHandler.Forbidden<List<EventDto>>("You are not authorized to view these events.");
                     }
                 }
                 var events = await _eventRepository.GetEventsByUserIdAsync(userId);
-                var eventsDto = _mapper.Map<List<EventDetailsDto>>(events);
+                var eventsDto = _mapper.Map<List<EventDto>>(events);
                 return _responseHandler.Success(eventsDto);
             }
             catch (UnauthorizedAccessException ex)
             {
-                return _responseHandler.Unauthorized<List<EventDetailsDto>>(ex.Message);
+                return _responseHandler.Unauthorized<List<EventDto>>(ex.Message);
             }
             catch (Exception ex)
             {
-                return _responseHandler.BadRequest<List<EventDetailsDto>>(ex.Message);
+                return _responseHandler.BadRequest<List<EventDto>>(ex.Message);
             }
         }
     }
