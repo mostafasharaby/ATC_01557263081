@@ -5,5 +5,6 @@ namespace EventBooking.Domain.Repositories
     public interface IBookingRepository : IGenericRepository<Booking>
     {
         Task<bool> HasAvailableSeatsAsync(int eventId, int requestedSeats);
+        Task<List<Booking>> GetBookingsByUserIdAsync(string userId);
     }
 }

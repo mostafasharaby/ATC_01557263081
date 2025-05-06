@@ -27,12 +27,11 @@ namespace EventBooking.Infrastructure.DI
             services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
+
             //services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<IBookingRepository, BookingRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
-
-
 
             ConfigureLockoutOptions(services);  // for Lockout 
             ConfigureLocalizationOptions(services); // for Localization
