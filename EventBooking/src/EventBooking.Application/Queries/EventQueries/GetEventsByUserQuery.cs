@@ -4,7 +4,7 @@ using MediatR;
 
 namespace EventBooking.Application.Queries.EventQueries
 {
-    public record GetEventsByUserQuery : IRequest<Response<List<EventDetailsDto>>>
+    public record GetEventsByUserQuery : IRequest<Response<List<EventDto>>>
     {
         public string? UserId { get; init; }
         public bool OnlyUpcoming { get; init; } = true;

@@ -4,6 +4,6 @@ using MediatR;
 
 namespace EventBooking.Application.Queries.EventQueries
 {
-    public record GetEventByIdQuery(int Id) : IRequest<Response<EventDetailsDto>> { }
+    public record GetEventByIdQuery(int Id) : IRequest<Response<EventDto>> { }
 
 }
