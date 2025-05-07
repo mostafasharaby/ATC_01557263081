@@ -12,7 +12,14 @@ namespace EventBooking.Application.Mappings
         {
             CreateMap<RegisterAdminCommand, AppUser>();
             CreateMap<LoginCommand, AppUser>();
-            CreateMap<AppUser, UserDto>();
+            CreateMap<AppUser, UserDto>()
+             .ConstructUsing(user => new UserDto(
+                 user.Id,
+                 user.UserName,
+                 user.Email,
+                 user.PhoneNumber
+             ));
+            CreateMap<AppUser, UserDto>().ReverseMap();
 
             CreateMap<UpdateAppUserCommand, AppUser>()
                 .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));

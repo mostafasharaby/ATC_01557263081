@@ -1,4 +1,4 @@
 ﻿namespace EventBooking.Application.DTOs
 {
-    public record UserDto(string Id, string Username, string Email, string Role);
+    public record UserDto(string Id, string Username, string Email, string PhoneNumber);
 }

@@ -1,14 +1,13 @@
 ﻿using EventBooking.Application.Commands.BookingCommands;
 using EventBooking.Application.Queries.BookingQueries;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventBooking.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    //  [Authorize]
     public class BookingsController : ControllerBase
     {
         private readonly IMediator _mediator;

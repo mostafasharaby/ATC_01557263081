@@ -39,10 +39,10 @@ namespace EventBooking.Application.Handlers.AuthHandlers
 
         public async Task<PaginatedResult<UserDto>> Handle(GetAllAppUsers request, CancellationToken cancellationToken)
         {
-            var allUsers = _userManager.Users.AsQueryable();
-            var paginatedResult = _mapper.ProjectTo<UserDto>(allUsers).ToPaginatedListAsync(request.PageNumber, request.PageSize);
+            var usersInRole = await _userManager.GetUsersInRoleAsync("user");
 
-            return await paginatedResult;
+            var userDtos = usersInRole.Select(u => _mapper.Map<UserDto>(u)).ToList();
+            return userDtos.ToPaginatedList(request.PageNumber, request.PageSize);
         }
     }
 }

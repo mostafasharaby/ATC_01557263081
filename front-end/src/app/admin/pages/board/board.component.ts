@@ -7,8 +7,10 @@ import { Doctor } from '../../../pages/models/doctor';
 import { AppointmentService } from '../../../pages/general/services/appointment.service';
 import { DoctorService } from '../../../pages/general/services/doctor.service';
 import { ReloadService } from '../../../shared/service/reload.service';
-import { DeleteModalComponent } from '../../../doctor/pages/delete-modal/delete-modal.component';
 import { TotalEarningsService } from '../../services/total-earnings.service';
+import { DeleteModalComponent } from '../delete-modal/delete-modal.component';
+import { EventService } from '../../../pages/general/services/event.service';
+import { BookingService } from '../../../pages/general/services/booking.service';
 
 @Component({
   selector: 'app-board',
@@ -26,7 +28,8 @@ export class BoardComponent implements OnInit, OnDestroy {
   totalAmountEarning: number = 0;
   selectedAppointmentId!: number;
   menuItems = MENU;
-
+  events: any[] = [];
+  bookings: any[] = [];
   private subscriptions: Subscription[] = [];  // Store subscriptions
 
   constructor(
@@ -35,7 +38,9 @@ export class BoardComponent implements OnInit, OnDestroy {
     private reload: ReloadService,
     private toaster: ToastrService,
     private patientService: PatientService,
-    private totalEarningService: TotalEarningsService
+    private totalEarningService: TotalEarningsService,
+    private eventService: EventService,
+    private bookingService: BookingService
   ) {}
 
   ngAfterViewInit(): void {
@@ -44,11 +49,11 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadAppointments();
-    this.loadDoctor();
     this.fetchPatientLength();
     this.optimizeWidget();
-    this.setBadgeForAppointments();
     this.getTotalEarning();
+    this.loadEvents();
+    this.loadBookings();
   }
 
   loadAppointments(): void {
@@ -57,7 +62,6 @@ export class BoardComponent implements OnInit, OnDestroy {
         this.appointments = data;
         this.numOfAppointments = this.appointments.length;
         this.optimizeWidget();
-        this.setBadgeForAppointments();
       },
       (error) => {
         console.error('Error fetching appointments:', error);
@@ -66,21 +70,29 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.subscriptions.push(appointmentSub);
   }
 
-  loadDoctor(): void {
-    const doctorSub = this.doctorService.getAllDoctors().subscribe(
-      (doctorFetched: Doctor[]) => {
-        if (doctorFetched) {
-          this.doctorsData = doctorFetched;
-          this.numOfDoctors = this.doctorsData.length;
-        }
+  loadBookings(): void {
+    this.bookingService.getBookingItems().subscribe({
+      next: (bookings) => {
+        this.bookings = bookings;
+        console.log('Bookings loaded:', this.bookings);
       },
-      (error) => {
-        console.error('Error fetching doctors:', error);
+      error: (error) => {
+        console.error('Error loading bookings:', error);
       }
-    );
-    this.subscriptions.push(doctorSub);
+    });
   }
 
+  loadEvents(): void {
+    this.eventService.getAllEvents().subscribe({
+      next: (events) => {
+        this.events = events;
+        console.log('Events:', this.events);
+      },
+      error: (error) => {
+        console.error('Error fetching events:', error);
+      }
+    });
+  }
   fetchPatientLength(): void {
     const patientSub = this.patientService.getAllPatient().subscribe({
       next: (data) => {
@@ -104,13 +116,6 @@ export class BoardComponent implements OnInit, OnDestroy {
       }
     });
     this.subscriptions.push(earningSub);
-  }
-
-  setBadgeForAppointments() {
-    const appointmentItem = this.menuItems.find(item => item.title === 'Appointment');
-    if (appointmentItem) {
-      appointmentItem.badge = this.numOfAppointments.toString();
-    }
   }
 
   optimizeWidget(): void {
@@ -175,7 +180,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   appointmentDate: string = '';
   appointmentTime: string = '';
 
-  onEditeAppointment(id: number, appointmentDate: string): void {
+  onEditevent(id: number, appointmentDate: string): void {
     this.selectedAppointmentId = id;
     this.appointmentDate = appointmentDate.split('T')[0];
     this.appointmentTime = appointmentDate.split('T')[1]?.substring(0, 5) || '';
