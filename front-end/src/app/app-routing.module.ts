@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/general/Home/Home.component';
 import { ErrorPageComponent } from './pages/general/errorPage/errorPage.component';
-import { DoctorGuard } from './doctor/guard/doctor.guard';
 import { AdminGuard } from './admin/guard/admin.guard';
 import { AuthGuard } from './pages/auth/guard/auth.guard';
 
@@ -12,15 +11,11 @@ const routes: Routes = [
     path: '',component: HomeComponent,  pathMatch: 'full'
   },
   {
-    path: 'home', component: HomeComponent , canActivate:[AuthGuard] // title: 'resolvedChildATitle'
+    path: 'home', component: HomeComponent , canActivate:[AuthGuard] 
   },
   { 
     path: 'admin', canActivate: [AdminGuard],
     loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
-  },
-  {  
-    path: 'doctor',canActivate: [DoctorGuard],
-    loadChildren: () => import('./doctor/doctor.module').then(m => m.DoctorModule)
   },
   {
     path: 'pages',

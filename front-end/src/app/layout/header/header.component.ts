@@ -55,11 +55,7 @@ export class HeaderComponent implements OnInit , OnDestroy {
   menuItems = [
     { href: '/pages/home', label: 'Home' },
     { href: '/pages/about-us', label: 'About' },
-    { href: '/pages/service', label: 'Service' },
-    { href: '/pages/gallery', label: 'Gallery' },
-    { href: '/pages/team', label: 'Team' },
-    { href: '/pages/appointment', label: 'Appointment' },
-    { href: '/pages/blog', label: 'Blog' },
+    { href: '/pages/events', label: 'Events' },
     { href: '/pages/contact', label: 'Contact' }
   ];
 

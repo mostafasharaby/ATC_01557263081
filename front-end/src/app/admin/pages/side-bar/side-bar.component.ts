@@ -10,18 +10,12 @@ import { Router } from '@angular/router';
 export class SideBarComponent implements OnInit {
   
   constructor(private router: Router) { }
+  menuItems:any;
+  
   ngOnInit() {
    // this.loadFlowbite();
-    this.checkIfDoctorRoute();
+   this.menuItems = MENU; 
 
-  }
-  menuItems:any;
-  checkIfDoctorRoute(): void {
-    if (this.router.url.includes('doctor/')) {
-      this.menuItems = DoctorMENU; 
-    } else {
-      this.menuItems = MENU; 
-    }
   }
 
   loadFlowbite(): void {

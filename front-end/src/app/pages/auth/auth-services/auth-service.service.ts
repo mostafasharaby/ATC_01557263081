@@ -12,16 +12,11 @@ import { ToastrService } from 'ngx-toastr';
 
 export class AuthServiceService {
 
-  //isLoggedSubject: BehaviorSubject<boolean>;
   public isLoggedSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private http: HttpClient,  private toaster: ToastrService) {
-    //this.isLoggedSubject = new BehaviorSubject<boolean>(this.isUserLoggedIn);  // old
-   // this.isLoggedSubject = new BehaviorSubject<boolean>(this.isTokenExpired());
-   // console.log("isUserLoggedIn", this.isUserLoggedIn);
     console.log("this.isTokenExpired()", this.isTokenExpired());
     this.updateAuthStatus();
-    //this.startTokenExpiryCheck();
   }
 
   private loginUrl = `${environment.api}/Account/login`;
@@ -37,9 +32,9 @@ export class AuthServiceService {
 
     return this.http.post<any>(this.loginUrl, loginData).pipe(
       tap((response: any) => {
-        console.log("response token: " + response.token);
-        if (response && response.token) {
-          localStorage.setItem('token', response.token);
+        console.log("response token: " + response.data.token);
+        if (response && response.data.token) {
+          localStorage.setItem('token', response.data.token);
           //this.isLoggedSubject.next(true);
 
           this.updateAuthStatus();
@@ -81,6 +76,8 @@ export class AuthServiceService {
     return (localStorage.getItem('token')) ? true : false;
   }
 
+
+
   getloggedStatus(): Observable<boolean> {
     console.log("Getting logged status " , this.isLoggedSubject.value)   // false means not logged in (expired token)
     return this.isLoggedSubject.asObservable();
@@ -105,7 +102,7 @@ export class AuthServiceService {
     this.isLoggedSubject.next(isLoggedIn);
 
     if (!isLoggedIn) {
-      this.logout(); // If token is expired, log the user out
+      this.logout(); 
       return;
     }
 
@@ -149,14 +146,14 @@ isRole(role: string): boolean {
     return false;
   }
 
-  getNameIdentifier(): string | null {
+  getNameIdentifier(): string | "" {
     const token = localStorage.getItem('token');
     if (token) {
       const decodedToken = jwtDecode(token) as any;
       console.log('decodedToken', JSON.stringify(decodedToken));
       return decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] || null;
     }
-    return null;
+    return "";
   }
 
 

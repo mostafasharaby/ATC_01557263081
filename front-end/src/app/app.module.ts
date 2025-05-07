@@ -11,7 +11,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { DoctorModule } from './doctor/doctor.module';
 import { provideToastr, ToastrModule } from 'ngx-toastr'; 
 import { AdminModule } from './admin/admin.module';
 
@@ -28,7 +27,6 @@ import { AdminModule } from './admin/admin.module';
     AuthModule,
     GeneralModule,  
     AdminModule,
-    DoctorModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,

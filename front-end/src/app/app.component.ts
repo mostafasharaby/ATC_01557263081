@@ -8,7 +8,7 @@ import { initFlowbite } from 'flowbite';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'MedicalCenter';
+  title = 'Event-Management-System';
 
   showHeaderAndNavbar: boolean = true;
   constructor(private router: Router ,
@@ -22,9 +22,9 @@ export class AppComponent {
   
   ngOnInit(): void {
     initFlowbite();  
-
+// booking-success
     this.router.events.subscribe(() => {
-      this.showHeaderAndNavbar = !this.router.url.includes('/admin')  &&!this.router.url.includes('/doctor')  && !this.router.url.includes('/error') && !this.router.url.includes('/auth');
+      this.showHeaderAndNavbar = !this.router.url.includes('/booking-success')  && !this.router.url.includes('/admin')  &&!this.router.url.includes('/doctor')  && !this.router.url.includes('/error') && !this.router.url.includes('/auth');
     });
   }
   
