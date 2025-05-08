@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppointmentService } from '../../../pages/general/services/appointment.service';
 import { ReloadService } from '../../../shared/service/reload.service';
+import { BookingService } from '../../../pages/general/services/booking.service';
 
 @Component({
   selector: 'app-temp-appointment',
@@ -9,24 +10,27 @@ import { ReloadService } from '../../../shared/service/reload.service';
 export class TempAppointmentComponent implements OnInit {
 
  appointments: any[] = [];  
-   numOfAppointments: number = 0;
- 
-   constructor(private appointmentService: AppointmentService , private reload :ReloadService) { }
+   bookings :any[] = [];  
+   constructor( 
+    private bookingService: BookingService,
+    
+    private reload :ReloadService) { }
  
    ngOnInit(): void {
-     this.loadAppointments();   
+     this.loadBookings(); 
    }
  
-   loadAppointments(): void {
-     this.appointmentService.getAppointments().subscribe(
-       (data) => {
-         this.appointments = data;
-         this.numOfAppointments = this.appointments.length;     
-         console.log('Fetched appointments:', this.appointments);
-       },
-       (error) => {
-         console.error('Error fetching appointments:', error);
-       }
-     );
-   }
+
+   loadBookings(): void {
+    this.bookingService.getBookingItems().subscribe({
+      next: (bookings) => {
+        this.bookings = bookings;
+        console.log('Bookings loaded:', this.bookings);
+      },
+      error: (error) => {
+        console.error('Error loading bookings:', error);
+      }
+    });
+  }
+
 }

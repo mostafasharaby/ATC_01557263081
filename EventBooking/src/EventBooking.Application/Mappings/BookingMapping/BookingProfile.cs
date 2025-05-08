@@ -13,12 +13,16 @@ namespace EventBooking.Application.Mappings.BookingMapping
             CreateMap<UpdateBookingCommand, Booking>();
 
             CreateMap<Booking, BookingDto>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName))
                 .ForMember(dest => dest.EventName, opt => opt.MapFrom(src => src.Event.Name))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Event.Price))
                 .ForMember(dest => dest.EventDate, opt => opt.MapFrom(src => src.Event.EventDate))
                 .ForMember(dest => dest.Venue, opt => opt.MapFrom(src => src.Event.Venue));
 
             CreateMap<Booking, BookingDto>()
+                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName))
                .ForMember(dest => dest.EventName, opt => opt.MapFrom(src => src.Event.Name))
+               .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Event.Price))
                .ForMember(dest => dest.EventDate, opt => opt.MapFrom(src => src.Event.EventDate))
                .ForMember(dest => dest.Venue, opt => opt.MapFrom(src => src.Event.Venue)).ReverseMap();
 

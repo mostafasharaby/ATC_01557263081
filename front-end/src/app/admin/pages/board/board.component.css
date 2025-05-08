@@ -1,4 +1,3 @@
-
 h1,
 h2,
 h3,
@@ -1474,48 +1473,4 @@ body {
     color: #343a40 !important;
   }
 
-  /*************************************************************************
-
-            [14. PROFILE ]
-              
-**************************************************************************/
-
-ul.docListWindow {
-  list-style-type: none;
-  padding: 0 10px;
-  height: 430px;
-  overflow: hidden;
-}
-ul.docListWindow li {
-  display: inline-block;
-  width: 100%;
-  border-bottom: 1px dashed #dcdcdc;
-  margin-bottom: 11px;
-  padding-bottom: 11px;
-}
-
-ul.docListWindow li .prog-avatar {
-  width: 40px;
-  height: 40px;
-  float: left;
-  margin-right: 25px;
-}
-
-ul.docListWindow li .prog-avatar img {
-  width: 100%;
-  border-radius: 50%;
-  -webkit-border-radius: 50%;
-}
-
-ul.docListWindow .progress {
-  height: 10px;
-  text-indent: 0;
-  margin: 0;
-}
-
-ul.docListWindow .progress-bar {
-  text-align: right;
-  padding-right: 15px;
-  line-height: 10px;
-  font-size: 10px;
-}
+ 

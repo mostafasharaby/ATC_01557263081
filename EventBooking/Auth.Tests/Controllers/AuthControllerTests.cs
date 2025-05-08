@@ -294,7 +294,7 @@ namespace tests.Auth.Tests.Controllers
         {
             // Arrange
             var command = new UpdateAppUserCommand("user1", "newUser", "new@example.com", "1234567890");
-            var userDto = new UserDto("user1", "newUser", "new@example.com", "1234567890");
+            var userDto = new UserDto("user1", "newUser", "new@example.com", "1234567890", "0000");
             _mediatorMock.Setup(m => m.Send(command, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(CreateResponse(userDto, true));
 
@@ -335,8 +335,8 @@ namespace tests.Auth.Tests.Controllers
             // Arrange
             var users = new List<UserDto>
             {
-                new UserDto("user1", "user1", "user1@example.com", "123"),
-                new UserDto("user2", "user2", "user2@example.com", "456")
+                new UserDto("user1", "user1", "user1@example.com", "123", "0000"),
+                new UserDto("user2", "user2", "user2@example.com", "456", "0000")
             };
             var query = new GetAllAppUsers { PageNumber = 1, PageSize = 10 };
             _mediatorMock.Setup(m => m.Send(query, It.IsAny<CancellationToken>()))
@@ -357,7 +357,7 @@ namespace tests.Auth.Tests.Controllers
         public async Task GetUserById_ExistingId_ReturnsOk()
         {
             // Arrange
-            var userDto = new UserDto("user1", "testuser", "test@example.com", "1234567890");
+            var userDto = new UserDto("user1", "testuser", "test@example.com", "1234567890", "0000");
             var query = new GetAppUserById("user1");
             _mediatorMock.Setup(m => m.Send(query, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(CreateResponse(userDto, true));

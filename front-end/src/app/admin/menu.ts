@@ -5,7 +5,7 @@ export const MENU = [
       icon: 'fas fa-tachometer-alt'
     },
     {
-      title: 'Appointment',
+      title: 'Events',
       path: '/admin/appointments',
       icon: 'fas fa-calendar-check',
       badge: null
@@ -14,12 +14,7 @@ export const MENU = [
       title: 'Users',
       path: '/admin/users',
       icon: 'fas fa-user-injured'
-    },
-    {
-      title: 'Patients',
-      path: '/admin/patients',
-      icon: 'fas fa-user-injured'
-    },
+    },    
     {
       title: 'Sign Out',
       path: '#',
@@ -30,27 +25,4 @@ export const MENU = [
   ];
 
 
-  export const DoctorMENU = [
-    {
-      title: 'Appointment',
-      path: '/doctor/doctor-appointments',
-      icon: 'fas fa-tachometer-alt'
-    },
-    {
-      title: 'Patients Review',
-      path: '/doctor/patient-reviews',
-      icon: 'fa fa-comments'
-    },
-    {
-      title: 'Profile',
-      path: '/doctor/doctor-profile',
-      icon: 'fa fa-user'
-    },
-    {
-      title: 'Sign Out',
-      path: '#',
-      toggle:'modal',
-      target:'#logoutModal',
-      icon: 'fas fa-sign-out-alt'
-    }
-  ];
+

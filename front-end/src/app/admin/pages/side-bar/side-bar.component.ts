@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DoctorMENU, MENU } from '../../menu';
+import {  MENU } from '../../menu';
 import * as Flowbite from 'flowbite';
 import { Router } from '@angular/router';
 

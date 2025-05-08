@@ -6,7 +6,6 @@ using EventBooking.Domain.Entities;
 using EventBooking.Domain.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
 
 namespace EventBooking.Application.Handlers.EventHandlers
 {
@@ -20,12 +19,8 @@ namespace EventBooking.Application.Handlers.EventHandlers
         public readonly ResponseHandler _responseHandler;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public EventCommandHandler(
-            IEventRepository eventRepository,
-            IFileStorageService fileStorageService,
-            ResponseHandler responseHandler,
-            IMapper mapper,
-            IHttpContextAccessor httpContextAccessor)
+        public EventCommandHandler(IEventRepository eventRepository, IFileStorageService fileStorageService, IMapper mapper,
+            ResponseHandler responseHandler, IHttpContextAccessor httpContextAccessor)
         {
             _eventRepository = eventRepository;
             _fileStorageService = fileStorageService;
@@ -38,11 +33,11 @@ namespace EventBooking.Application.Handlers.EventHandlers
         {
             try
             {
-                var userId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value
-                    ?? throw new UnauthorizedAccessException("User ID not found in token.");
+                //var userId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                //    ?? throw new UnauthorizedAccessException("User ID not found in token.");
 
                 var ev = _mapper.Map<Event>(request);
-                ev.CreatedBy = userId;
+                // ev.CreatedBy = userId;
                 ev.CreatedAt = DateTime.UtcNow;
 
                 if (request.Image != null)
@@ -68,15 +63,15 @@ namespace EventBooking.Application.Handlers.EventHandlers
         {
             try
             {
-                var userId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value
-                    ?? throw new UnauthorizedAccessException("User ID not found in token.");
+                //var userId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                //    ?? throw new UnauthorizedAccessException("User ID not found in token.");
 
                 var existingEvent = await _eventRepository.GetByIdAsync(request.Id);
                 if (existingEvent == null)
                     return _responseHandler.NotFound<string>("Event not found.");
 
-                if (existingEvent.CreatedBy != userId)
-                    return _responseHandler.Forbidden<string>("You are not authorized to update this event.");
+                //if (existingEvent.CreatedBy != userId)
+                //    return _responseHandler.Forbidden<string>("You are not authorized to update this event.");
 
                 _mapper.Map(request, existingEvent);
                 existingEvent.UpdatedAt = DateTime.UtcNow;
@@ -118,17 +113,16 @@ namespace EventBooking.Application.Handlers.EventHandlers
         {
             try
             {
-                var userId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value
-                    ?? throw new UnauthorizedAccessException("User ID not found in token.");
+                //var userId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                //    ?? throw new UnauthorizedAccessException("User ID not found in token.");
 
                 var existingEvent = await _eventRepository.GetByIdAsync(request.Id);
                 if (existingEvent == null)
                     return _responseHandler.NotFound<string>("Event not found.");
 
-                if (existingEvent.CreatedBy != userId)
-                    return _responseHandler.Forbidden<string>("You are not authorized to delete this event.");
+                //if (existingEvent.CreatedBy != userId)
+                //    return _responseHandler.Forbidden<string>("You are not authorized to delete this event.");
 
-                // Delete event image if exists
                 if (!string.IsNullOrEmpty(existingEvent.ImageUrl))
                 {
                     await _fileStorageService.DeleteFileAsync(existingEvent.ImageUrl, "events");
