@@ -17,7 +17,8 @@ namespace EventBooking.Application.Mappings
                  user.Id,
                  user.UserName,
                  user.Email,
-                 user.PhoneNumber
+                 user.PhoneNumber,
+                 user.ImageUrl
              ));
             CreateMap<AppUser, UserDto>().ReverseMap();
 

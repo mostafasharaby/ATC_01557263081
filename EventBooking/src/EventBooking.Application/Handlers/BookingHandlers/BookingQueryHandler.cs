@@ -12,7 +12,8 @@ namespace EventBooking.Application.Handlers.BookingHandlers
 
     public class BookingQueryHandler : IRequestHandler<GetBookingByIdQuery, Response<BookingDto>>,
                                        IRequestHandler<GetBookingListQuery, Response<List<BookingDto>>>,
-                                       IRequestHandler<GetBookingsByUserQuery, Response<List<BookingDto>>>
+                                       IRequestHandler<GetBookingsByUserQuery, Response<List<BookingDto>>>,
+                                       IRequestHandler<GetTotalEarningsQuery, Response<decimal>>
     {
         private readonly IBookingRepository _bookingRepository;
         private readonly IMapper _mapper;
@@ -107,6 +108,24 @@ namespace EventBooking.Application.Handlers.BookingHandlers
             catch (Exception ex)
             {
                 return _responseHandler.BadRequest<List<BookingDto>>(ex.Message);
+            }
+        }
+        public async Task<Response<decimal>> Handle(GetTotalEarningsQuery request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var bookings = await _bookingRepository.GetAllAsync();
+                var bookingsDto = _mapper.Map<List<BookingDto>>(bookings);
+
+                var totalEarnings = bookingsDto
+                    .Where(b => b.Price.HasValue)
+                    .Sum(b => b.Price.Value * b.TicketCount);
+
+                return _responseHandler.Success(totalEarnings);
+            }
+            catch (Exception ex)
+            {
+                return _responseHandler.BadRequest<decimal>(ex.Message);
             }
         }
     }
