@@ -63,5 +63,14 @@ namespace EventBooking.API.Controllers
             var result = await _mediator.Send(query);
             return (bool)result.Succeeded! ? Ok(result) : NotFound(result);
         }
+
+        [HttpGet("total-earnings")]
+        public async Task<IActionResult> GetTotalEarnings()
+        {
+            var query = new GetTotalEarningsQuery();
+            var result = await _mediator.Send(query);
+
+            return (bool)result.Succeeded! ? Ok(result) : BadRequest(result);
+        }
     }
 }

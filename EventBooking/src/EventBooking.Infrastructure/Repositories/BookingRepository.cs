@@ -20,6 +20,7 @@ namespace EventBooking.Infrastructure.Repositories
         public async override Task<List<Booking>> GetAllAsync()
         {
             return await _dbContext.Bookings
+                .Include(i => i.User)
                 .Include(b => b.Event)
                 .ToListAsync();
         }

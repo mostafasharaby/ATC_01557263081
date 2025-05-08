@@ -148,18 +148,19 @@ namespace EventBooking.Tests.Controllers
         public async Task GetEventById_ValidId_ReturnsOk()
         {
             // Arrange
-            var eventDto = new EventDto(
-                    Name: "Test Event 1",
-                    Description: "Description 1",
-                    Category: "Concert",
-                    EventDate: DateTime.UtcNow.AddDays(1),
-                    Venue: "Test Venue 1",
-                    Price: 50.00m,
-                    ImageUrl: "test1.jpg",
-                    AvailableTickets: 100,
-                    CreatedAt: DateTime.UtcNow,
-                    ModifiedAt: null
-                );
+            var eventDto = new EventDto
+            {
+                Name = "Test Event 2",
+                Description = "Description 2",
+                Category = "Conference",
+                EventDate = DateTime.UtcNow.AddDays(2),
+                Venue = "Test Venue 2",
+                Price = 75.00m,
+                ImageUrl = "test2.jpg",
+                AvailableTickets = 200,
+                CreatedAt = DateTime.UtcNow,
+                ModifiedAt = null
+            };
 
             var response = CreateResponse(eventDto, true, "Event retrieved successfully");
             _mediatorMock.Setup(m => m.Send(It.IsAny<GetEventByIdQuery>(), It.IsAny<CancellationToken>()))
@@ -201,30 +202,32 @@ namespace EventBooking.Tests.Controllers
             // Arrange
             var events = new List<EventDto>
             {
-                new EventDto(
-                    Name: "Test Event 1",
-                    Description: "Description 1",
-                    Category: "Concert",
-                    EventDate: DateTime.UtcNow.AddDays(1),
-                    Venue: "Test Venue 1",
-                    Price: 50.00m,
-                    ImageUrl: "test1.jpg",
-                    AvailableTickets: 100,
-                    CreatedAt: DateTime.UtcNow,
-                    ModifiedAt: null
-                ),
-                new EventDto(
-                    Name: "Test Event 2",
-                    Description: "Description 2",
-                    Category: "Conference",
-                    EventDate: DateTime.UtcNow.AddDays(2),
-                    Venue: "Test Venue 2",
-                    Price: 75.00m,
-                    ImageUrl: "test2.jpg",
-                    AvailableTickets: 200,
-                    CreatedAt: DateTime.UtcNow,
-                    ModifiedAt: null
-                )
+                new EventDto
+                {
+                    Name = "Test Event 1",
+                    Description = "Description 1",
+                    Category = "Concert",
+                    EventDate = DateTime.UtcNow.AddDays(1),
+                    Venue = "Test Venue 1",
+                    Price = 50.00m,
+                    ImageUrl = "test1.jpg",
+                    AvailableTickets = 100,
+                    CreatedAt = DateTime.UtcNow,
+                    ModifiedAt = null
+                },
+                new EventDto
+                {
+                    Name = "Test Event 2",
+                    Description = "Description 2",
+                    Category = "Conference",
+                    EventDate = DateTime.UtcNow.AddDays(2),
+                    Venue = "Test Venue 2",
+                    Price = 75.00m,
+                    ImageUrl = "test2.jpg",
+                    AvailableTickets = 200,
+                    CreatedAt = DateTime.UtcNow,
+                    ModifiedAt = null
+                }
             };
             var response = CreateResponse(events, true, "Events retrieved successfully");
             _mediatorMock.Setup(m => m.Send(It.IsAny<GetEventListQuery>(), It.IsAny<CancellationToken>()))
@@ -266,18 +269,19 @@ namespace EventBooking.Tests.Controllers
             // Arrange
             var events = new List<EventDto>
             {
-                new EventDto(
-                    Name: "Test Event 1",
-                    Description: "Description 1",
-                    Category: "Concert",
-                    EventDate: DateTime.UtcNow.AddDays(1),
-                    Venue: "Test Venue 1",
-                    Price: 50.00m,
-                    ImageUrl: "test1.jpg",
-                    AvailableTickets: 100,
-                    CreatedAt: DateTime.UtcNow,
-                    ModifiedAt: null
-                )
+                 new EventDto
+                {
+                    Name = "Test Event 2",
+                    Description = "Description 2",
+                    Category = "Conference",
+                    EventDate = DateTime.UtcNow.AddDays(2),
+                    Venue = "Test Venue 2",
+                    Price = 75.00m,
+                    ImageUrl = "test2.jpg",
+                    AvailableTickets = 200,
+                    CreatedAt = DateTime.UtcNow,
+                    ModifiedAt = null
+                }
             };
             var response = CreateResponse(events, true, "User events retrieved successfully");
             _mediatorMock.Setup(m => m.Send(It.IsAny<GetEventsByUserQuery>(), It.IsAny<CancellationToken>()))

@@ -148,18 +148,19 @@ namespace Auth.Tests.Controllers
         public async Task GetBookingById_ValidId_ReturnsOk()
         {
             // Arrange
-            var bookingDto = new BookingDto(
-                Id: 1,
-                UserId: "user1",
-                EventId: 1,
-                EventName: "Test Event",
-                EventDate: DateTime.UtcNow.AddDays(1),
-                Venue: "Test Venue",
-                Price: 50.00m,
-                TicketCount: 2,
-                Status: "Confirmed",
-                BookingDate: DateTime.UtcNow
-            );
+            var bookingDto = new BookingDto
+            {
+                Id = 1,
+                UserId = "user1",
+                EventId = 1,
+                EventName = "Test Event",
+                EventDate = DateTime.UtcNow.AddDays(1),
+                Venue = "Test Venue",
+                Price = 50.00m,
+                TicketCount = 2,
+                Status = "Confirmed",
+                BookingDate = DateTime.UtcNow
+            };
             var response = CreateResponse(bookingDto, true, "Booking retrieved successfully");
             _mediatorMock.Setup(m => m.Send(It.IsAny<GetBookingByIdQuery>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -200,30 +201,32 @@ namespace Auth.Tests.Controllers
             // Arrange
             var bookings = new List<BookingDto>
             {
-                new BookingDto(
-                    Id: 1,
-                    UserId: "user1",
-                    EventId: 1,
-                    EventName: "Test Event 1",
-                    EventDate: DateTime.UtcNow.AddDays(1),
-                    Venue: "Test Venue 1",
-                    Price: 50.00m,
-                    TicketCount: 2,
-                    Status: "Confirmed",
-                    BookingDate: DateTime.UtcNow
-                ),
-                new BookingDto(
-                    Id: 2,
-                    UserId: "user2",
-                    EventId: 1,
-                    EventName: "Test Event 1",
-                    EventDate: DateTime.UtcNow.AddDays(1),
-                    Venue: "Test Venue 1",
-                    Price: 50.00m,
-                    TicketCount: 1,
-                    Status: "Confirmed",
-                    BookingDate: DateTime.UtcNow
-                )
+                new BookingDto
+            {
+                Id = 1,
+                UserId = "user1",
+                EventId = 1,
+                EventName = "Test Event",
+                EventDate = DateTime.UtcNow.AddDays(1),
+                Venue = "Test Venue",
+                Price = 50.00m,
+                TicketCount = 2,
+                Status = "Confirmed",
+                BookingDate = DateTime.UtcNow
+            },
+                new BookingDto
+            {
+                Id = 1,
+                UserId = "user1",
+                EventId = 1,
+                EventName = "Test Event",
+                EventDate = DateTime.UtcNow.AddDays(1),
+                Venue = "Test Venue",
+                Price = 50.00m,
+                TicketCount = 2,
+                Status = "Confirmed",
+                BookingDate = DateTime.UtcNow
+            }
             };
             var response = CreateResponse(bookings, true, "Bookings retrieved successfully");
             _mediatorMock.Setup(m => m.Send(It.IsAny<GetBookingListQuery>(), It.IsAny<CancellationToken>()))
@@ -265,18 +268,19 @@ namespace Auth.Tests.Controllers
             // Arrange
             var bookings = new List<BookingDto>
             {
-                new BookingDto(
-                    Id: 1,
-                    UserId: "user1",
-                    EventId: 1,
-                    EventName: "Test Event",
-                    EventDate: DateTime.UtcNow.AddDays(1),
-                    Venue: "Test Venue",
-                    Price: 50.00m,
-                    TicketCount: 2,
-                    Status: "Confirmed",
-                    BookingDate: DateTime.UtcNow
-                )
+                new BookingDto
+            {
+                Id = 1,
+                UserId = "user1",
+                EventId = 1,
+                EventName = "Test Event",
+                EventDate = DateTime.UtcNow.AddDays(1),
+                Venue = "Test Venue",
+                Price = 50.00m,
+                TicketCount = 2,
+                Status = "Confirmed",
+                BookingDate = DateTime.UtcNow
+            }
             };
             var response = CreateResponse(bookings, true, "User bookings retrieved successfully");
             _mediatorMock.Setup(m => m.Send(It.IsAny<GetBookingsByUserQuery>(), It.IsAny<CancellationToken>()))

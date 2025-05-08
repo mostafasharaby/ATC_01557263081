@@ -201,7 +201,7 @@ export class ChartComponent  implements OnInit {
   cards = [
     {
       id: 'chart1',
-      title: 'CENTER SURVEY',
+      title: 'Events SURVEY',
       size: 'col-md-8', 
       tools: [
         { icon: 'fa-repeat', action: 'refresh' },
@@ -211,7 +211,7 @@ export class ChartComponent  implements OnInit {
     },
     {
       id: 'chart2',
-      title: 'CENTER SURVEY',
+      title: 'Events SURVEY',
       size: 'col-md-4',
       tools: [
         { icon: 'fa-repeat', action: 'refresh' },

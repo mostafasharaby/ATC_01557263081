@@ -4,6 +4,7 @@
     {
         public int Id { get; init; }
         public string? UserId { get; init; }
+        public string? UserName { get; init; }
         public int? EventId { get; init; }
         public string? EventName { get; init; }
         public DateTime EventDate { get; init; }
