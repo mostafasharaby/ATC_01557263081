@@ -20,7 +20,21 @@ export class EventService {
     }).pipe(
       map(response => response.data)
     );
-  }
+  }  
+
+  // addEvent(formData: FormData): Observable<string> {
+  //   return this.http.post<ApiResponse<string>>(this.eventUrl, formData, {
+  //   //  headers: this.authService.getHeaders()
+  //   }).pipe(
+  //     map(response => response.data)
+  //   );
+  // }
+  addEvent(formData: FormData): Observable<string> {
+  return this.http.post<ApiResponse<string>>(this.eventUrl, formData) // NO headers!
+    .pipe(
+      map(response => response.data)
+    );
+}
 
   getEventById(eventID: number): Observable<Event> {
     return this.http.get<ApiResponse<Event>>(`${this.eventUrl}/${eventID}`, {
@@ -30,6 +44,21 @@ export class EventService {
     );
   }
 
+  updateEvent(eventID: number, formData: FormData): Observable<string> {
+    return this.http.put<ApiResponse<string>>(`${this.eventUrl}/${eventID}`, formData).pipe(
+      map(response => response.data)
+    );
+  }
+  
+  
+  deleteEvent(eventID: number): Observable<any> {
+    return this.http.delete<ApiResponse<any>>(`${this.eventUrl}/${eventID}`, {
+      headers: this.authService.getHeaders()
+    }).pipe(
+      map(response => response.data)
+    );
+  }
+  
   private resetSubject = new BehaviorSubject<boolean>(false);  
   resetObservable$ = this.resetSubject.asObservable();
 

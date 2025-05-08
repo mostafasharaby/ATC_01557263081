@@ -40,9 +40,9 @@
 									<span class="progress-description">
 										{{ box.description }}
 									</span>
-								</div>							
-							</div>							
-						</div>						
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 				<!-- End Widget -->
@@ -54,7 +54,7 @@
 					<div class="col-md-8 col-sm-12">
 						<div class="card  card-box">
 							<div class="card-head">
-								<header>Events Details</header>
+								<header>Events</header>
 								<div class="tools">
 									<a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
 									<a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
@@ -65,8 +65,8 @@
 								<div class="row table-padding">
 									<div class="col-md-6 col-sm-6 col-xs-6">
 										<div class="btn-group">
-											<a href="book_appointment_material.html" id="addRow"
-												class="btn btn-info btn-circle">
+											<a id="addRow" class="btn btn-info btn-circle"
+												(click)="openAddEventModal()">
 												Add New <i class="fa fa-plus"></i>
 											</a>
 										</div>
@@ -129,9 +129,9 @@
 												</td>
 												<td class="center"> {{ event.venue }}</td>
 												<td class="center"> {{ event.eventDate | date:'MM/dd/yyyy' }} </td>
-													
-												
-												
+
+
+
 												<td class="center">
 													<div class="btn-group">
 														<button
@@ -142,12 +142,12 @@
 														</button>
 														<ul class="dropdown-menu pull-left" role="menu">
 															<li>
-																<a (click)="openDeleteModal(event.eventId)"><i
+																<a (click)="openDeleteModal(event.id)"><i
 																		class="fa fa-trash-o"></i>
 																	Delete </a>
 															</li>
 															<li>
-																<a (click)="onEditevent(event.eventId ,event.eventDate)" href="javascript:;"><i
+																<a (click)="onEditEvent(event)" href="javascript:;"><i
 																		class="fa fa-ban"></i>
 																	Edite </a>
 															</li>
@@ -165,7 +165,7 @@
 					<div class="col-md-4 col-sm-12">
 						<div class="card  card-box">
 							<div class="card-head">
-								<header>DOCTORS LIST</header>
+								<header>USER LIST</header>
 								<div class="tools">
 									<a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
 									<a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
@@ -175,13 +175,13 @@
 							<div class="card-body no-padding height-9">
 								<div class="row">
 									<ul class="docListWindow">
-										<li *ngFor="let doctor of doctorsData">
+										<li *ngFor="let user of users">
 											<div class="prog-avatar">
-												<img [src]="doctor.image" alt="" width="40" height="40">
+												<img [src]="user.imageUrl" alt="" width="40" height="40">
 											</div>
 											<div class="details">
 												<div class="title">
-													<a href="#">{{doctor.name}}</a> -(MBBS,MD)
+													<a href="#">{{user.username}}</a> -(MBBS,MD)
 												</div>
 												<div>
 													<span class="clsAvailable">Available</span>
@@ -198,62 +198,7 @@
 					</div>
 				</div>
 				<!-- start admited patient list -->
-				<div class="row">
-					<div class="col-md-12 col-sm-12">
-						<div class="card  card-box">
-							<div class="card-head">
-								<header>ADMIT PATIENT LIST</header>
-								<div class="tools">
-									<a class="fa fa-repeat btn-color box-refresh" href="javascript:;"></a>
-									<a class="t-collapse btn-color fa fa-chevron-down" href="javascript:;"></a>
-									<a class="t-close btn-color fa fa-times" href="javascript:;"></a>
-								</div>
-							</div>
-							<div class="card-body ">
-								<div class="table-wrap">
-									<div class="table-responsive">
-										<table class="table display product-overview mb-30" id="support_table">
-											<thead>
-												<tr>
-													<th>No</th>
-													<th>Name</th>
-													<th>Email</th>
-													<th>Assigned Doctor</th>
-													<th>Date Of Admit</th>
-													<th>Diseases</th>
-													<th>Edit</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr *ngFor="let appointment of appointments, let index = index"
-													class="odd gradeX">
-													<td>{{index+1}}</td>
-													<td>{{ appointment.patient?.name || 'Unknown' }}</td>
-													<td> {{ appointment.patient?.email || 'Unknown' }} </td>
-													<td>{{ appointment.doctor.name || 'Not Assigned' }}</td>
-													<td>{{ appointment.appointmentDate | date: 'MM/dd/yyyy' }}</td>
-													<td>
-														<span
-															class="label label-sm label-success">{{appointment.doctor.specializations[0]}}</span>
-													</td>
-
-													<td>
-														<a href="javascript:void(0)" class="tblEditBtn">
-															<i class="fa fa-pencil"></i>
-														</a>
-														<a href="javascript:void(0)" class="tblDelBtn">
-															<i class="fa fa-trash-o"></i>
-														</a>
-													</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				<app-temp-appointment></app-temp-appointment>
 				<!-- end admited patient list -->
 			</div>
 		</div>
@@ -265,28 +210,101 @@
 
 </div>
 
-<app-delete-modal [itemId]="selectedAppointmentId" (confirm)="onDeleteAppointment($event)"></app-delete-modal>
+<app-delete-modal [itemId]="selectedAppointmentId" (confirm)="onDeleteEvent($event)"></app-delete-modal>
 
 
+<div #editModal id="editModal"
+	class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 mt-5">
+	<div class="bg-white rounded-lg shadow-lg p-4 w-[600px]">
+		<h2 class="text-xl text-dark mb-2">Edit Event</h2>
 
-<div id="editModal" class=" hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-	<div class="bg-white rounded-lg shadow-lg p-6 w-96">
-		<h2 class="text-xl text-dark mb-4">Edit Appointment</h2>
+		<div class="flex gap-4">
+			<div class="w-1/2">
+				<label class="block text-sm font-medium text-dark mb-1">Name</label>
+				<input type="text" [(ngModel)]="name" class="w-full px-2 py-1 border text-dark rounded-lg">
+			</div>
 
-		<!-- Date Input -->
-		<label class="block text-sm font-medium text-dark mb-2">Appointment
-			Date</label>
-		<input type="date" [(ngModel)]="appointmentDate" class="w-full px-3 py-2 border  text-dark rounded-lg">
-
-		<label class="block text-sm font-medium text-dark my-2">Appointment
-			Time</label>
-		<input type="time" [(ngModel)]="appointmentTime" class="w-full px-3 py-2 border  text-dark rounded-lg">
-
-		<!-- Modal Actions -->
-		<div class="flex justify-end mt-4">
-			<button (click)="closeModal()" class="bg-gray-400 px-4 py-2 rounded-lg mr-2">Cancel</button>
-			<button (click)="saveAppointment()"
-				class="bg-blue-600 text-white px-4 py-2 rounded-lg">Save</button>
+			<div class="w-1/2">
+				<label class="block text-sm font-medium text-dark mb-1">Category</label>
+				<input type="text" [(ngModel)]="category" class="w-full px-2 py-1 border text-dark rounded-lg">
+			</div>
 		</div>
+
+		<div class="flex gap-4 mt-4">
+			<div class="w-1/2">
+				<label class="block text-sm font-medium text-dark mb-1">Event Date</label>
+				<input type="date" [(ngModel)]="eventDate" class="w-full px-2 py-1 border text-dark rounded-lg">
+			</div>
+
+			<div class="w-1/2">
+				<label class="block text-sm font-medium text-dark mb-1">Venue</label>
+				<input type="text" [(ngModel)]="venue" class="w-full px-2 py-1 border text-dark rounded-lg">
+			</div>
+		</div>
+
+		<div class="flex gap-4 mt-4">
+			<div class="w-1/2">
+				<label class="block text-sm font-medium text-dark mb-1">Price</label>
+				<input type="number" [(ngModel)]="price" class="w-full px-2 py-1 border text-dark rounded-lg">
+			</div>
+
+			<div class="w-1/2">
+				<label class="block text-sm font-medium text-dark mb-1">Available Tickets</label>
+				<input type="number" [(ngModel)]="availableTickets"
+					class="w-full px-2 py-1 border text-dark rounded-lg">
+			</div>
+		</div>
+
+		<div class="mt-4">
+			<label class="block text-sm font-medium text-dark mb-1">Description</label>
+			<textarea [(ngModel)]="description" class="w-full px-2 py-1 border text-dark rounded-lg"></textarea>
+		</div>
+
+		<div class="flex gap-4 mt-4">
+			<div class="w-1/2">
+				<label class="block text-sm font-medium text-dark mb-1">Image (Optional)</label>
+				<input type="file" (change)="onFileSelected($event)"
+					class="w-full px-2 py-1 border text-dark rounded-lg">
+			</div>
+
+			<div class="w-1/2 flex items-center mt-6">
+				<input type="checkbox" [(ngModel)]="removeCurrentImage" id="removeImage" class="mr-2">
+				<label for="removeImage" class="text-sm font-medium text-dark">Remove Current Image</label>
+			</div>
+		</div>
+
+		<div class="flex justify-end mt-6">
+			<button (click)="closeModal()" class="bg-gray-400 px-4 py-2 rounded-lg mr-2">Cancel</button>
+			<button (click)="saveEvent()" class="bg-blue-600 text-white px-4 py-2 rounded-lg">Save</button>
+		</div>
+
+	</div>
+</div>
+
+
+<div #addModal id="addModal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 mt-5 ">
+	<div class="bg-white rounded-lg shadow-lg p-4 w-[600px]">
+		<h2 class="text-dark">Add New Event</h2>
+		<form (ngSubmit)="saveNewEvent()" #addEventForm="ngForm">
+			<input type="text" [(ngModel)]="addName" name="addName" placeholder="Name" required
+				class="form-control mb-2">
+			<textarea [(ngModel)]="addDescription" name="addDescription" placeholder="Description" required
+				class="form-control mb-2"></textarea>
+			<input type="text" [(ngModel)]="addCategory" name="addCategory" placeholder="Category" required
+				class="form-control mb-2">
+			<input type="datetime-local" [(ngModel)]="addEventDate" name="addEventDate" required
+				class="form-control mb-2">
+			<input type="text" [(ngModel)]="addVenue" name="addVenue" placeholder="Venue" required
+				class="form-control mb-2">
+			<input type="number" [(ngModel)]="addPrice" name="addPrice" placeholder="Price" required
+				class="form-control mb-2">
+			<input type="number" [(ngModel)]="addAvailableTickets" name="addAvailableTickets"
+				placeholder="Available Tickets" required class="form-control mb-2">
+			<input type="file" (change)="onAddFileSelected($event)" class="form-control mb-2">
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-success text-dark">Save</button>
+				<button type="button" class="btn btn-secondary text-dark" (click)="closeAddModal()">Cancel</button>
+			</div>
+		</form>
 	</div>
 </div>

@@ -1,7 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ReloadService } from '../../../shared/service/reload.service';
-import { SpecializationService } from '../services/specialization.service';
-import { PatientService } from '../../../admin/services/patient.service';
 import { Subscription } from 'rxjs';
 
 @Component({
