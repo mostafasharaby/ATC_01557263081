@@ -22,15 +22,8 @@ export class EventService {
     );
   }  
 
-  // addEvent(formData: FormData): Observable<string> {
-  //   return this.http.post<ApiResponse<string>>(this.eventUrl, formData, {
-  //   //  headers: this.authService.getHeaders()
-  //   }).pipe(
-  //     map(response => response.data)
-  //   );
-  // }
   addEvent(formData: FormData): Observable<string> {
-  return this.http.post<ApiResponse<string>>(this.eventUrl, formData) // NO headers!
+  return this.http.post<ApiResponse<string>>(this.eventUrl, formData) 
     .pipe(
       map(response => response.data)
     );

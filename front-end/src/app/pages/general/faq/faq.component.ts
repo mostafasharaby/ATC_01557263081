@@ -11,23 +11,5 @@ export class FaqComponent implements OnInit {
 
   ngOnInit() {
   }
-  faqList = [
-    {
-      question: 'Why Should I choose Medical Health?',
-      answer: `Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                richardson ad squid.`
-    },
-    {
-      question: 'What are the Centre’s visiting hours?',
-      answer: `Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                richardson ad squid.`
-    },
-    {
-      question: 'How many visitors are allowed?',
-      answer: `Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry
-                richardson ad squid.`
-    }
-  ];
-
 
 }
