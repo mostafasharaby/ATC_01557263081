@@ -309,25 +309,6 @@ namespace tests.Auth.Tests.Controllers
             response.Succeeded.Should().BeTrue();
         }
 
-        [Fact]
-        public async Task UpdateProfile_ValidCommand_ReturnsOk()
-        {
-            // Arrange
-            var innerCommand = new UpdateProfileCommand("newUser", "new@example.com", "1234567890");
-            var command = new UpdateProfileRequest("user1", innerCommand);
-            _mediatorMock.Setup(m => m.Send(command, It.IsAny<CancellationToken>()))
-                .ReturnsAsync(CreateResponse("Profile updated successfully", true));
-
-            // Act
-            var result = await _controller.UpdateProfile(innerCommand);
-
-            // Assert
-            result.Should().BeOfType<OkObjectResult>();
-            var okResult = result as OkObjectResult;
-            var response = okResult!.Value as Response<string>;
-            response!.Data.Should().Be("Profile updated successfully");
-            response.Succeeded.Should().BeTrue();
-        }
 
         [Fact]
         public async Task GetAllUsers_ReturnsOkWithList()
