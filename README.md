@@ -22,7 +22,7 @@ This project is a modern, scalable Event Booking System built using:
 ### 🔧 Backend (.NET API)
 
 ```text
-EventBookingSystem/
+back-end/EventEventBooking/
 ├── API/             # ASP.NET Core Web API Layer (controllers, middlewares)
 ├── Application/     # Application Layer (CQRS handlers, DTOs, interfaces)
 ├── Domain/          # Domain Layer (Entities, Enums, Interfaces, Exceptions)
@@ -32,7 +32,7 @@ EventBookingSystem/
 
 ### 🎨 Frontend (Angular)
 ```text
-event-booking-angular/
+front-end/
 ├── src/
 │ ├── app/
 │ │ ├── Services/ # Auth services, interceptors, guards
@@ -110,7 +110,8 @@ event-booking-angular/
 1. **Clone the repository**:
    ```bash
    git clone git@github.com:mostafasharaby/Event-Booking-System.git
-   cd EventBookingSystem
+   cd back-end
+   cd EventBooking
 2.  Configure the database connection string => Update the appsettings.json file with your SQL Server connection string.
 3.  Apply migrations
 4.  ```bash
