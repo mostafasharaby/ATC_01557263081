@@ -112,7 +112,12 @@ front-end/
    git clone git@github.com:mostafasharaby/Event-Booking-System.git
    cd back-end
    cd EventBooking
-2.  Configure the database connection string => Update the appsettings.json file with your SQL Server connection string.
+2.  ## 🔐 Configuration
+      Before running the project, create a file named `appsettings.json` in the root of the backend project.  
+      You can use `appsettings.example.json` as a template.
+      ```bash
+      cp appsettings.example.json appsettings.json
+      ```
 3.  Apply migrations
 4.  ```bash
      dotnet ef database update
