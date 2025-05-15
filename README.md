@@ -139,14 +139,25 @@ event-booking-angular/
 4. ✅ The app will be available at: http://localhost:4200
 
 **🔐 Admin Credentials (for demo)**
-Default admin credentials (after seeding or manual DB insert):
-
-Email: admin@example.com
-Password: P@ssw0rd! 
+   Default admin credentials (after seeding or manual DB insert):
+   
+   Email: admin@example.com
+   Password: P@ssw0rd! 
 
 **🔐 User Credentials (for demo)**
-Default user credentials (after seeding or manual DB insert):
+   Default user credentials (after seeding or manual DB insert):
 
-Email: noor@example.com
-Password: P@ssw0rd! 
+   Email: noor@example.com
+   Password: P@ssw0rd! 
+
+![Image](https://github.com/user-attachments/assets/3a542c72-6cf6-4690-a58e-5901ad624137)
+![Image](https://github.com/user-attachments/assets/091b66c4-d13e-4c40-98f8-dc8b9808cdeb)
+![Image](https://github.com/user-attachments/assets/2a9fa493-377a-45b9-af23-e172219acd7c)
+![Image](https://github.com/user-attachments/assets/eb607a98-92ce-47ba-a8ef-68fa695d68ba)
+![Image](https://github.com/user-attachments/assets/0e376594-2fa7-43b5-9591-64f27106c642)
+![Image](https://github.com/user-attachments/assets/96ba47dc-53d2-4326-a3e5-be2c14210823)
+![Image](https://github.com/user-attachments/assets/9ead6136-3710-4a19-b5ca-9b729a58778c)
+![Image](https://github.com/user-attachments/assets/39eb6a40-1c64-4617-928f-a8f380615dea)
+![Image](https://github.com/user-attachments/assets/23df30be-b8fb-4007-b603-617d574552e3)
+![Image](https://github.com/user-attachments/assets/cdc9982a-2fe5-4aba-aafa-febfc55bb375)
 
