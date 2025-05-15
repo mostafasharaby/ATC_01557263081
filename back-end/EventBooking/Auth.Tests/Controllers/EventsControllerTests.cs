@@ -172,7 +172,7 @@ namespace EventBooking.Tests.Controllers
             // Assert
             result.Should().BeOfType<OkObjectResult>();
             var okResult = result as OkObjectResult;
-            var responseResult = okResult!.Value as Response<EventDetailsDto>;
+            var responseResult = okResult!.Value as Response<EventDto>;
             responseResult!.Data.Should().BeEquivalentTo(eventDto);
             responseResult.Succeeded.Should().BeTrue();
         }
@@ -191,7 +191,7 @@ namespace EventBooking.Tests.Controllers
             // Assert
             result.Should().BeOfType<NotFoundObjectResult>();
             var notFoundResult = result as NotFoundObjectResult;
-            var responseResult = notFoundResult!.Value as Response<EventDetailsDto>;
+            var responseResult = notFoundResult!.Value as Response<EventDto>;
             responseResult!.Succeeded.Should().BeFalse();
             responseResult.Message.Should().Be("Event not found.");
         }
@@ -293,7 +293,7 @@ namespace EventBooking.Tests.Controllers
             // Assert
             result.Should().BeOfType<OkObjectResult>();
             var okResult = result as OkObjectResult;
-            var responseResult = okResult!.Value as Response<List<EventDetailsDto>>;
+            var responseResult = okResult!.Value as Response<List<EventDto>>;
             responseResult!.Data.Should().BeEquivalentTo(events);
             responseResult.Succeeded.Should().BeTrue();
         }
@@ -312,7 +312,7 @@ namespace EventBooking.Tests.Controllers
             // Assert
             result.Should().BeOfType<NotFoundObjectResult>();
             var notFoundResult = result as NotFoundObjectResult;
-            var responseResult = notFoundResult!.Value as Response<List<EventDetailsDto>>;
+            var responseResult = notFoundResult!.Value as Response<List<EventDto>>;
             responseResult!.Succeeded.Should().BeFalse();
             responseResult.Message.Should().Be("You are not authorized to view these events.");
         }
