@@ -34,6 +34,7 @@ wwwroot/js/
 appsettings*.json
 appsettings.*.json
 appsettings.json
-
+# But DO commit this:
+!appsettings.example.json
 # Windows
 Thumbs.db
