@@ -14,6 +14,7 @@ import { EventDetailsComponent } from './event-details/event-details.component';
 import { EventPageComponent } from './event-page/event-page.component';
 import { BookingSuccessComponent } from './booking-success/booking-success.component';
 import { FilterComponent } from './filter/filter.component';
+import { ErrorPageComponent } from './errorPage/errorPage.component';
 
 
 const routes: Routes = [
@@ -48,6 +49,7 @@ const routes: Routes = [
     EventPageComponent,
     EventDetailsComponent,
     FilterComponent,
+    ErrorPageComponent,
     BookingSuccessComponent,
     DeleteModalComponent,
   ],
