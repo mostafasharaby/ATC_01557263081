@@ -35,7 +35,7 @@ EventBookingSystem/
 event-booking-angular/
 ├── src/
 │ ├── app/
-│ │ ├── core/ # Auth services, interceptors, guards
+│ │ ├── Services/ # Auth services, interceptors, guards
 │ │ ├── shared/ # Shared UI components
 │ │ ├── user/ # Event listing, booking, filters
 │ │ ├── admin/ # Dashboard, charts, event CRUD
