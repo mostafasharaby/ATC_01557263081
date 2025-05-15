@@ -137,3 +137,16 @@ event-booking-angular/
   ng serve
   ```
 4. ✅ The app will be available at: http://localhost:4200
+
+**🔐 Admin Credentials (for demo)**
+Default admin credentials (after seeding or manual DB insert):
+
+Email: admin@example.com
+Password: P@ssw0rd! 
+
+**🔐 User Credentials (for demo)**
+Default user credentials (after seeding or manual DB insert):
+
+Email: noor@example.com
+Password: P@ssw0rd! 
+
