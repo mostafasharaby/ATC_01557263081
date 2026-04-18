@@ -1,0 +1,25 @@
+trigger:
+- main
+
+pool:
+  vmImage: default
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '20.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install -g @angular/cli
+    npm install
+    ng build --configuration production
+  displayName: 'Install and Build Angular App'
+
+- task: AzureStaticWebApp@0
+  inputs:
+    app_location: '/'
+    output_location: 'dist/medical-center'
+    skip_app_build: true
+    azure_static_web_apps_api_token: $(deployment_token)
+  displayName: 'Deploy Angular App'
