@@ -19,7 +19,7 @@ steps:
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: 'dist\medical-center'
+    rootFolderOrFile: 'D:\My_Projects\EventBookingSystem\front-end\dist\medical-center'
     includeRootFolder: false
     archiveType: zip
     archiveFile: '$(Build.ArtifactStagingDirectory)\site.zip'
