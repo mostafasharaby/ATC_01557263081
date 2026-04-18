@@ -19,7 +19,7 @@ steps:
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(System.DefaultWorkingDirectory)\front-end\dist\medical-center'
+    rootFolderOrFile: 'dist\medical-center'
     includeRootFolder: false
     archiveType: zip
     archiveFile: '$(Build.ArtifactStagingDirectory)\site.zip'
