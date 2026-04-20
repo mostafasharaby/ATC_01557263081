@@ -1,0 +1,33 @@
+trigger:
+  - main
+
+pool:
+  name: Default
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '20.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    cd front-end
+    npm install
+    npm install -g @angular/cli
+    ng build --configuration production
+  displayName: 'Build Angular App'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: 'D:\My_Projects\EventBookingSystem\front-end'
+    includeRootFolder: false
+    archiveType: zip
+    archiveFile: '$(Build.ArtifactStagingDirectory)\site.zip'
+    replaceExistingArchive: true
+  displayName: 'Create ZIP'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)\site.zip'
+    ArtifactName: 'drop'
+  displayName: 'Publish Artifact'
